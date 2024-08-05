@@ -61,12 +61,12 @@ class Apple(GameObject):
         super().__init__()
         self.body_color = APPLE_COLOR
 
-    def randomize_position(self, *args):
+    def randomize_position(self, occupied_cells):
         """Устанавливает случайное положение яблока на игровом поле."""
         while True:
             new_position = (randint(0, GRID_WIDTH - 1) * GRID_SIZE,
                             randint(0, GRID_HEIGHT - 1) * GRID_SIZE)
-            if new_position not in args:
+            if new_position not in occupied_cells:
                 self.position = new_position
                 break
 
@@ -118,6 +118,8 @@ class Snake(GameObject):
     def self_collided(self):
         """Метод, который проверяет змейку на самоукус."""
         head_position = self.get_head_position()
+        # Проверяем, совпадают ли координаты головы змейки
+        # с координатами части её тела
         for pos in self.positions[1:]:
             if head_position == pos:
                 return True
